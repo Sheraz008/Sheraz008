@@ -1,0 +1,20 @@
+export const THEME = {
+  colors: {
+    darkgray: '#3d3d3d',
+    fontlightgrey: '#BDBDBD',
+    white: '#fff',
+    black: '#000',
+    lightgray: '#E6E6E6',
+    otherred: '#FF8080',
+    green: '#159A6D',
+    red: '#ff3e3e',
+    darkRed: '#8B0000',
+    lightred: '#FFEAE9',
+    otherGreen: '#76D3B4',
+    lightgreen: '#E1F6EF',
+    darkpink: '#e93c8b',
+    darkGreen: '#006400',
+    LIGHTRED: '#ffdcdc',
+    LIGHTGREEN: '#c1fae7',
+  },
+};

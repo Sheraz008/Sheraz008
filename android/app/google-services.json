@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "48729578148",
+    "project_id": "avvocatoapp-52be5",
+    "storage_bucket": "avvocatoapp-52be5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48729578148:android:92c2822b7d34ee20f3e431",
+        "android_client_info": {
+          "package_name": "com.myavvocatoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48729578148-96lvgr7vvk2oko4imap8lsmprr6a9kla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myavvocatoapp",
+            "certificate_hash": "1507b0abdf19e134eb355b88a1c818f82b5ef066"
+          }
+        },
+        {
+          "client_id": "48729578148-mkjql6sl8064adjlut6etku0megho1ln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIlmCiTuyzEzHvpMqy9Avptf599pDovGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48729578148-mkjql6sl8064adjlut6etku0megho1ln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

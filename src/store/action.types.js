@@ -1,0 +1,13 @@
+module.exports = {
+  Language: 'Language',
+  USER_AUTH: 'USER_AUTH',
+  USER_LOADER: 'USER_LOADER',
+  USER_SIGNUP: 'USER_SIGNUP',
+  SOCIAL_SIGNIN: 'SOCIAL_SIGNIN',
+  Reload: 'Reload',
+  ERROR_MODAL: 'ERROR_MODAL',
+  SUCCESS_MODAL: 'SUCCESS_MODAL',
+  ERROR_MESSAGE: 'ERROR_MESSAGE',
+  SUCCESS_MESSAGE: 'SUCCESS_MWSSAGE',
+  Messages:"Messages"
+};
