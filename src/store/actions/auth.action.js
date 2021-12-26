@@ -160,19 +160,20 @@ const sendMail = data => {
   return async dispatch => {
     dispatch(LoadingLoader(true));
     await axios
-      .post('sendEmail', data)
+      .post('https://avvocate.herokuapp.com/api/sendEmail', data)
       .then(function (response) {
         if (response?.status == 200) {
+          console.log('Response--->', response?.data);
           dispatch(LoadingLoader(false));
           dispatch(successModal(true));
-          dispatch(successMessage(response?.data?.message));
+          dispatch(successMessage(response?.data));
         }
       })
       .catch(function (error) {
         console.log('error--->', error);
         dispatch(LoadingLoader(false));
         dispatch(errorModal(true));
-        dispatch(errorMessage(error?.response?.data?.message));
+        dispatch(errorMessage("Server Error"));
       });
   };
 };
@@ -181,20 +182,20 @@ const onlineConsultant = data => {
   return async dispatch => {
     dispatch(LoadingLoader(true));
     await axios
-      .post('consultant', data)
+      .post('https://avvocate.herokuapp.com/api/consultant', data)
       .then(function (response) {
         if (response?.status == 200) {
           console.log('response.data--->', response.data);
           dispatch(LoadingLoader(false));
           dispatch(successModal(true));
-          dispatch(successMessage(response?.data?.message));
+          dispatch(successMessage(response?.data));
         }
       })
       .catch(function (error) {
         console.log('Error-->', error);
         dispatch(LoadingLoader(false));
         dispatch(errorModal(true));
-        dispatch(errorMessage(error?.response?.data?.message));
+        dispatch(errorMessage("Server Error"));
       });
   };
 };
@@ -203,7 +204,7 @@ const ResetPasswordRequest = data => {
   return async dispatch => {
     dispatch(LoadingLoader(true));
     await axios
-      .post('forgetEmail', data)
+      .post('https://avvocate.herokuapp.com/api/updatePassword', data)
       .then(function (response) {
         if (response?.status == 200) {
           console.log('response.data--->', response.data);
@@ -216,7 +217,7 @@ const ResetPasswordRequest = data => {
         console.log('Error-->', error);
         dispatch(LoadingLoader(false));
         dispatch(errorModal(true));
-        dispatch(errorMessage(error?.response?.data?.message));
+        dispatch(errorMessage('Server Error'));
       });
   };
 };

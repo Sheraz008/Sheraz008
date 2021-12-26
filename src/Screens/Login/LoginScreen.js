@@ -12,6 +12,7 @@ import LanguageSelect from './Components/LanguageSelect';
 import GeneralModal from '../../Modals/GeneralModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler'
+
 const LoginScreen = ({ navigation }) => {
     const [Modalvisible, setModalvisibleVisible] = useState(false);
     const Loader = useSelector(state => state.auth.loadingLoader);
@@ -51,11 +52,7 @@ const LoginScreen = ({ navigation }) => {
 
                     ) : null}
                     <GeneralModal></GeneralModal>
-                    <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
-                        <Text>
-                            ResetPassword
-                        </Text>
-                    </TouchableOpacity>
+                
                     <LoginForm Set_Modal_Visible={setModalvisibleVisible} />
                     <FooterPart />
                 </KeyboardAwareScrollView>

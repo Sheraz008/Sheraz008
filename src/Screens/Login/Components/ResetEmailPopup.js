@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View,ActivityIndicator} from 'react-native';
 import {Overlay} from 'react-native-elements';
 import FontAicon from 'react-native-vector-icons/Ionicons';
 import {Input} from 'react-native-elements';
@@ -8,19 +8,24 @@ import * as Yup from 'yup';
 import * as Work from '../../../shared/exporter';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
+
 import * as Jobs from '../../../store/actions/auth.action';
 const axios = require('axios');
 const {HP, WP} = Work;
+
 const ResetEmailPopup = ({PopVisible, Set_Modal_Visible}) => {
   const {t, i18n} = useTranslation();
+  const Loader = useSelector(state => state.auth.loadingLoader);
   const toggleOverlay = () => {
     Set_Modal_Visible(!PopVisible);
   };
   const dispatch = useDispatch();
-  const login = async ({ Email }) => {
+  const login = async ({ Email,Password }) => {
+    Set_Modal_Visible(false);
     dispatch(
         Jobs.ResetPasswordRequest({
             email: Email,
+            password:Password
         }),
     );
 };
@@ -59,11 +64,13 @@ const ResetEmailPopup = ({PopVisible, Set_Modal_Visible}) => {
         </Text>
         <View>
           <Formik
-            initialValues={{Email: ''}}
+            initialValues={{Email: '', Password: '',}}
             validationSchema={Yup.object({
               Email: Yup.string()
                 .email()
                 .required('Please enter a valid Email'),
+                Password: Yup.string().min(5, 'Too Short ! At least 8 Characters Required').required('Please enter a valid Password'),
+
             })}
             onSubmit={values => {
                 login(values);
@@ -94,11 +101,40 @@ const ResetEmailPopup = ({PopVisible, Set_Modal_Visible}) => {
                     errorStyle={{marginLeft: WP('5')}}
                   />
                 </View>
+                <View>
+                  <Input
+                    inputContainerStyle={{borderBottomWidth: 0}}
+                    placeholder={t("Enter your password")}
+                    placeholderTextColor="#757B77"
+                    style={[styles.input,{  marginTop: WP('0'),}]}
+                    onChangeText={handleChange('Password')}
+                    onBlur={handleBlur('Password')}
+                    error={errors.Password}
+                    touched={touched.Password}
+                    autoCorrect={false}
+                    errorMessage={
+                      errors.Password && touched.Password ? errors.Password : null
+                    }
+                    errorStyle={{marginLeft: WP('5')}}
+                  />
+                </View>
+           
+
+             
                 <TouchableOpacity
                   onPress={handleSubmit}
                   style={styles.roundBtn}>
                   <Text style={styles.BtnText}>{t('Reset password')}</Text>
+                  {Loader == true ? (
+                  <ActivityIndicator
+                                style={{ alignSelf: 'center',marginStart:10 }}
+                                size="small"
+                                color={"#fff"}
+                            />
+                                 ) : null}
                 </TouchableOpacity>
+                
+                               
               </View>
             )}
           </Formik>
@@ -126,13 +162,15 @@ const styles = StyleSheet.create({
   },
   roundBtn: {
     backgroundColor: '#54749B',
-    height: Work.HP('5'),
+     height: Work.HP('5'),
     // width: Work.WP('50'),
-    alignSelf: 'center',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+     alignSelf: 'center',
+     borderRadius: 30,
+     justifyContent: 'space-between',
+     alignItems: 'center',
+     paddingHorizontal: 20,
+     flexDirection:'row'
+  
   },
   BtnText: {
     color: '#fff',

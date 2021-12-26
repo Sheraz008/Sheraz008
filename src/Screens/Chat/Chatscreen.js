@@ -12,7 +12,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Jobs from '../../store/actions/auth.action';
-import firestore from '@react-native-firebase/firestore'
 import io from 'socket.io-client';
 import { Platform } from 'react-native';
 const Chatscreen = ({ navigation }) => {
@@ -23,171 +22,101 @@ const Chatscreen = ({ navigation }) => {
     const Messages = useSelector(state => state?.auth?.chatMessages);
     const Language = useSelector(state => state?.auth?.language);
     const socket = io('http://147.182.142.76:5000');
-    const getAllMessages = async ()=>{
-        const docid  = userid
-        const querySanp = await firestore().collection('chatrooms')
-        .doc(docid)
-        .collection('messages')
-        .orderBy('createdAt',"desc")
-        .get()
-       const allmsg =   querySanp.docs.map(docSanp=>{
-            return {
-                ...docSanp.data(),
-                createdAt:docSanp.data().createdAt.toDate()
-            }
-        })
-        setMessages(allmsg)
-
-    
-     }
-    useEffect(() => {
-        // getAllMessages()
-  
-        const docid  = userid
-          const messageRef = firestore().collection('chatrooms')
-          .doc(docid)
-          .collection('messages')
-          .orderBy('createdAt',"desc")
-  
-        const unSubscribe =  messageRef.onSnapshot((querySnap)=>{
-              const allmsg =   querySnap.docs.map(docSanp=>{
-               const data = docSanp.data()
-               if(data.createdAt){
-                   return {
-                      ...docSanp.data(),
-                      createdAt:docSanp.data().createdAt.toDate()
-                  }
-               }else {
-                  return {
-                      ...docSanp.data(),
-                      createdAt:new Date()
-                  }
-               }
-                  
-              })
-              setMessages(allmsg)
-          })
-  
-  
-          return ()=>{
-            unSubscribe()
-          }
-  
-          
-        }, [])
    // console.log("Messages---->", Messages);
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     Language == 'ita' ?
-    //         setMessages([
+        Language == 'ita' ?
+            setMessages([
               
-    //             {
-    //                 _id: 2,
-    //                 text: 'In questa chat non forniamo consulenza legale. Se hai bisogno di questo servizio usa il nostro servizio di consulenza online.',
-    //                 createdAt: new Date(),
-    //                 user: {
-    //                     _id: 2,
-    //                     name: 'Ali',
-    //                     //avatar: 'https://placeimg.com/140/140/any',
-    //                 },
-    //             },
-    //             {
-    //                 _id: 1,
-    //                 text: 'Ciao, in questa chat ti forniremo un orientamento legale in modo da guidarti nella risoluzione del tuo caso problema legale.',
-    //                 createdAt: new Date(),
-    //                 user: {
-    //                     _id: 2,
-    //                     name: 'Sheraz ',
-    //                     //avatar: 'https://placeimg.com/140/140/any',
-    //                 },
-    //             },
+                {
+                    _id: 2,
+                    text: 'In questa chat non forniamo consulenza legale. Se hai bisogno di questo servizio usa il nostro servizio di consulenza online.',
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'Ali',
+                        //avatar: 'https://placeimg.com/140/140/any',
+                    },
+                },
+                {
+                    _id: 1,
+                    text: 'Ciao, in questa chat ti forniremo un orientamento legale in modo da guidarti nella risoluzione del tuo caso problema legale.',
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'Sheraz ',
+                        //avatar: 'https://placeimg.com/140/140/any',
+                    },
+                },
 
 
-    //         ]) :
-    //         setMessages([
+            ]) :
+            setMessages([
                
-    //             {
-    //                 _id: 2,
-    //                 text: 'We dont provide legal consulting services here.If you need this service you can use our online consultant section',
-    //                 createdAt: new Date(),
-    //                 user: {
-    //                     _id: 2,
-    //                     name: 'ALI',
-    //                     //avatar: 'https://placeimg.com/140/140/any',
-    //                 },
-    //             },
-    //             {
-    //                 _id: 1,
-    //                 text: t('Hello, in this chat we will help you to undestand the legal guidelines in order to resolve your legal problem.'),
-    //                 createdAt: new Date(),
-    //                 user: {
-    //                     _id: 2,
-    //                     name: 'Sheraz',
-    //                     //avatar: 'https://placeimg.com/140/140/any',
-    //                 },
-    //             },
+                {
+                    _id: 2,
+                    text: 'We dont provide legal consulting services here.If you need this service you can use our online consultant section',
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'ALI',
+                        //avatar: 'https://placeimg.com/140/140/any',
+                    },
+                },
+                {
+                    _id: 1,
+                    text: t('Hello, in this chat we will help you to undestand the legal guidelines in order to resolve your legal problem.'),
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'Sheraz',
+                        //avatar: 'https://placeimg.com/140/140/any',
+                    },
+                },
 
              
 
-    //         ]);
+            ]);
 
-    //     socket.on('message', (userMessage) => {
-    //         console.log("userMessage---->", userMessage);
+        socket.on('message', (userMessage) => {
+            console.log("userMessage---->", userMessage);
 
-    //     });
-    //     dispatch(Jobs.chatMessages({ userId: userid }),);
-    //     let getList = [];
-    //     Messages && Messages?.map(data => {
-    //         getList.push({
-    //             _id: data.id,
-    //             text: data.message,
-    //             createdAt: new Date(data.created_at),
-    //             user: {
-    //                 _id: data.sender,
-    //                 name: 'sheraz',
-    //             },
-    //         });
-    //     });
-    //     //   setMessages(getList);
-    // }, []);
-    const onSend =(messageArray) => {
-        const msg = messageArray[0]
-        const mymsg = {
-            ...msg,
-            sentBy:user.uid,
-            sentTo:uid,
-            createdAt:new Date()
-        }
-       setMessages(previousMessages => GiftedChat.append(previousMessages,mymsg))
-       const docid  = userid 
- 
-       firestore().collection('chatrooms')
-       .doc(docid)
-       .collection('messages')
-       .add({...mymsg,createdAt:firestore.FieldValue.serverTimestamp()})
+        });
+        dispatch(Jobs.chatMessages({ userId: userid }),);
+        let getList = [];
+        Messages && Messages?.map(data => {
+            getList.push({
+                _id: data.id,
+                text: data.message,
+                createdAt: new Date(data.created_at),
+                user: {
+                    _id: data.sender,
+                    name: 'sheraz',
+                },
+            });
+        });
+        //   setMessages(getList);
+    }, []);
 
-
-      }
-
-    // const onSend = useCallback((messages = []) => {
+    const onSend = useCallback((messages = []) => {
         
-    //     const Message = {
-    //         sender: userid,
-    //         message: messages[0].text,
-    //         // user_id:
-    //         //   userid === route.params.data?.sender_id
-    //         //     ? route.params.data?.receiver_id
-    //         //     : route.params.data?.sender_id,
-    //         // chat_id: chat_id,
-    //         // photo: pic,
-    //       };
-    //       console.log("messages to be send ----->",Message);
-    //     socket.emit('message', Message);
+        const Message = {
+            sender: userid,
+            message: messages[0].text,
+            // user_id:
+            //   userid === route.params.data?.sender_id
+            //     ? route.params.data?.receiver_id
+            //     : route.params.data?.sender_id,
+            // chat_id: chat_id,
+            // photo: pic,
+          };
+          console.log("messages to be send ----->",Message);
+        socket.emit('message', Message);
 
-    //     setMessages((previousMessages) =>
-    //         GiftedChat.append(previousMessages, messages),
-    //     );
-    // }, []);
+        setMessages((previousMessages) =>
+            GiftedChat.append(previousMessages, messages),
+        );
+    }, []);
     const renderSend = (props) => {
         return (
             <Send {...props}>
@@ -330,7 +259,7 @@ const Chatscreen = ({ navigation }) => {
                     messages={messages}
                     onSend={(messages) => onSend(messages)}
                     user={{
-                        _id: userid,
+                        _id: 1,
                     }}
                     renderBubble={renderBubble}
                     alwaysShowSend
@@ -349,15 +278,55 @@ const Chatscreen = ({ navigation }) => {
                    // renderInputToolbar={renderInputToolbar}
                     scrollToBottomComponent={scrollToBottomComponent}
                 />
-             
+                {/* <View style={styles.ChatboxContainer}>
+                    <KeyboardAwareScrollView >
+                    <Text style={styles.chatText}>Hello,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('0'), }]}>
+                        in this chat we will help you to understand the legal guidelines in order to resolve your legal problem ,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('2'), }]}>We don't provide legal consulting services here. If you need the service you can use our online consultant services.</Text>
 
-              
-          
+                    <Text style={styles.chatText}>Hello,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('0'), }]}>
+                        in this chat we will help you to understand the legal guidelines in order to resolve your legal problem ,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('2'), }]}>We don't provide legal consulting services here. If you need the service you can use our online consultant services.</Text>
+                    <Text style={styles.chatText}>Hello,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('0'), }]}>
+                        in this chat we will help you to understand the legal guidelines in order to resolve your legal problem ,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('2'), }]}>We don't provide legal consulting services here. If you need the service you can use our online consultant services.</Text>
+                    <Text style={styles.chatText}>Hello,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('0'), }]}>
+                        in this chat we will help you to understand the legal guidelines in order to resolve your legal problem ,</Text>
+                    <Text style={[styles.chatText, { marginTop: Work.WP('2'), }]}>We don't provide legal consulting services here. If you need the service you can use our online consultant services.</Text>
+                    </KeyboardAwareScrollView>
+                   
+                </View> */}
+
+                {/* <KeyboardAwareScrollView> */}
+                {/* <View style={styles.bottomView}>
+
+                    <Input
+                        inputContainerStyle={{ borderBottomWidth: 0, }}
+                        placeholder={"Message"}
+                        placeholderTextColor="#757B77"
+                        multiline={true}
+                        style={styles.input}
+                    />
+
+                </View> */}
+                {/* </KeyboardAwareScrollView> */}
+                {/* </KeyboardAwareScrollView> */}
+
+                {/* <KeyboardAwareScrollView
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="always">
+                  
+
+                </KeyboardAwareScrollView> */}
                 <View style={{marginVertical:20}}>
               
                 </View>
             </Animatable.View>
-           
+            {/* </KeyboardAwareScrollView> */}
 
 
         </SafeAreaView>

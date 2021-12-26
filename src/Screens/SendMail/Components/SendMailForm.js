@@ -164,7 +164,7 @@ const SendMailForm = () => {
                     <View>
                         <TouchableOpacity
                             style={styles.loginbtn}
-                            onPress={handleEmail}>
+                            onPress={handleSubmit}>
                             <Text style={{ fontSize: 20, color: '#fff' }}>{t("Send email")}</Text>
                         </TouchableOpacity>
                     </View>

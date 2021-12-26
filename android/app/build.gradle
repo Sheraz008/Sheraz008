@@ -131,6 +131,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+
     defaultConfig {
         applicationId "com.myavvocatoapp"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -193,7 +194,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
- implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
+    
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
