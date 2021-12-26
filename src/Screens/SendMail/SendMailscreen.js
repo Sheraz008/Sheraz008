@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View,ActivityIndicator } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, StatusBar,TouchableOpacity, View,ActivityIndicator } from 'react-native'
 import FontAicon from 'react-native-vector-icons/Ionicons';
 import * as Work from '../../shared/exporter'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -14,6 +14,11 @@ const SendMailscreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.ParentView}>
+        <StatusBar
+       
+        barStyle="dark-content"
+        backgroundColor='#BDD5EB'
+      /> 
             <View style={styles.IconContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
@@ -22,6 +27,7 @@ const SendMailscreen = ({navigation}) => {
                         name="chevron-back-outline"
                         size={Work.WP('10')}
                         color={'#000'}
+                        style={{marginStart:10}}
                     />
                 </TouchableOpacity>
 
@@ -29,7 +35,7 @@ const SendMailscreen = ({navigation}) => {
                 <FontAicon
                    
                     name="mail-outline"
-                    size={Work.WP('11')}
+                    size={Work.WP('10')}
                     color={'#000'}
                 />
             </View>
@@ -90,7 +96,9 @@ const styles = StyleSheet.create({
     IconContainer: {
         flexDirection: 'row',
         backgroundColor: '#BDD5EB',
-       alignItems:'center'
+        alignItems:'center',
+        marginTop: Work.HP('2'),
+       
     },
     TextConatiner:{
         marginHorizontal:Work.WP('15'),

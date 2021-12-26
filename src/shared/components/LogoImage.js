@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     logoImage:{
         height:Work.HP('10'),
         width:Work.WP('80'),
-        marginVertical:Work.WP('5'),
+        marginBottom:Work.WP('5'),
         alignSelf:'center'
     },
     HomepageStyle:{

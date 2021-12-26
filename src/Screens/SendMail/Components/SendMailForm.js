@@ -7,6 +7,7 @@ import * as Work from '../../../shared/exporter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Jobs from '../../../store/actions/auth.action';
+import Mailer from 'react-native-mail';
 
 const { WP, HP } = Work
 const SendMailForm = () => {
@@ -14,15 +15,48 @@ const SendMailForm = () => {
     const dispatch = useDispatch();
     const updateUser = async ({ Name,Surname,Email, Legalrequest }) => {
       dispatch(
-        Jobs.onlineConsultant({
+        Jobs.sendMail({
             name:Name,
             surname:Surname,
-          email: Email,
-          message: Legalrequest,
-
+            email: Email,
+            message: Legalrequest,
+ 
         }),
       );
     };
+  const   handleEmail = () => {
+    Mailer.mail({
+      subject: 'need help',
+      recipients: ['support@example.com'],
+      ccRecipients: ['supportCC@example.com'],
+      bccRecipients: ['supportBCC@example.com'],
+      body: '<b>A Bold Body</b>',
+      customChooserTitle: 'This is my new title', // Android only (defaults to "Send Mail")
+      isHTML: true,
+      attachments: [{
+        // Specify either `path` or `uri` to indicate where to find the file data.
+        // The API used to create or locate the file will usually indicate which it returns.
+        // An absolute path will look like: /cacheDir/photos/some image.jpg
+        // A URI starts with a protocol and looks like: content://appname/cacheDir/photos/some%20image.jpg
+        path: '', // The absolute path of the file from which to read data.
+        uri: '', // The uri of the file from which to read the data.
+        // Specify either `type` or `mimeType` to indicate the type of data.
+        type: '', // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+        mimeType: '', // - use only if you want to use custom type
+        name: '', // Optional: Custom filename for attachment
+      }]
+    }, (error, event) => {
+      Alert.alert(
+        error,
+        event,
+        [
+          {text: 'Ok', onPress: () => console.log('OK: Email Error Response')},
+          {text: 'Cancel', onPress: () => console.log('CANCEL: Email Error Response')}
+        ],
+        { cancelable: true }
+      )
+    });
+  }
     return (
         <View style={styles.FormikView}>
         <Formik
@@ -130,7 +164,7 @@ const SendMailForm = () => {
                     <View>
                         <TouchableOpacity
                             style={styles.loginbtn}
-                            onPress={handleSubmit}>
+                            onPress={handleEmail}>
                             <Text style={{ fontSize: 20, color: '#fff' }}>{t("Send email")}</Text>
                         </TouchableOpacity>
                     </View>

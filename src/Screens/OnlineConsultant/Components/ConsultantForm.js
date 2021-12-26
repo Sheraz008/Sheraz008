@@ -18,8 +18,8 @@ const ConsultantForm = () => {
         Jobs.onlineConsultant({
             name:Name,
             surname:Surname,
-          email: Email,
-          message: Legalrequest,
+             email: Email,
+             message: Legalrequest,
 
         }),
       );

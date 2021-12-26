@@ -10,10 +10,20 @@ import ConsultantScreen from '../Screens/OnlineConsultant/ConsultantScreen'
 import Chatscreen from '../Screens/Chat/Chatscreen'
 import SendMailscreen from '../Screens/SendMail/SendMailscreen'
 import {useDispatch, useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import ResetPasswordScreen from '../Screens/ResetPassword/ResetPasswordScreen'
 const Routes = () => {
   const Stack = createStackNavigator();
   const user = useSelector(state => state.auth.user);
+  const Language = useSelector(state => state.auth.language);
+  const { i18n } = useTranslation();
+      const Loader = useSelector(state => state.auth.loadingLoader);
+    console.log("Loader---->",Loader);
+  useEffect(() => {
 
+    Language == 'ita' ?  i18n.changeLanguage("ita"):i18n.changeLanguage("en")
+  
+  }, [])
   return (
     <SafeAreaProvider>
       <NavigationContainer>
@@ -33,6 +43,12 @@ const Routes = () => {
             component={SignupScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+          name='Reset'
+          component={ResetPasswordScreen}
+          options={{ headerShown: false }}
+        />
+          
           </>
           :
           <>

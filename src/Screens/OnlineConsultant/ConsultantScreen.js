@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View,ActivityIndicator } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, StatusBar, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import FontAicon from 'react-native-vector-icons/Ionicons';
 import * as Work from '../../shared/exporter'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -7,13 +7,17 @@ import ConsultantForm from './Components/ConsultantForm'
 import * as Animatable from 'react-native-animatable'
 import { useTranslation } from 'react-i18next';
 import GeneralModal from '../../Modals/GeneralModal'
-import {useDispatch, useSelector} from 'react-redux';
-const ConsultantScreen = ({navigation}) => {
+import { useDispatch, useSelector } from 'react-redux';
+const ConsultantScreen = ({ navigation }) => {
     const { t, i18n } = useTranslation()
     const Loader = useSelector(state => state.auth.loadingLoader);
 
     return (
         <SafeAreaView style={styles.ParentView}>
+            <StatusBar
+                barStyle="dark-content"
+                backgroundColor='#BDD5EB'
+            />
             <View style={styles.IconContainer}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
@@ -22,6 +26,7 @@ const ConsultantScreen = ({navigation}) => {
                         name="chevron-back-outline"
                         size={Work.WP('10')}
                         color={'#000'}
+                        style={{ marginStart: 10 }}
                     />
                 </TouchableOpacity>
 
@@ -37,30 +42,30 @@ const ConsultantScreen = ({navigation}) => {
             <Animatable.View
                 animation='fadeInUpBig'
                 duration={1000} style={styles.mainView}>
-                               {Loader == true ? (
-          <View
-            style={{
-           
-              justifyContent: 'center',
-              marginVertical: Work.WP('5'),
-            }}>
-            <ActivityIndicator
-              style={{alignSelf: 'center'}}
-              size="large"
-              color={"#4F6EA5"}
-            />
-            </View>
-        
-         ) : null} 
-         <GeneralModal/>
+                {Loader == true ? (
+                    <View
+                        style={{
+
+                            justifyContent: 'center',
+                            marginVertical: Work.WP('5'),
+                        }}>
+                        <ActivityIndicator
+                            style={{ alignSelf: 'center' }}
+                            size="large"
+                            color={"#4F6EA5"}
+                        />
+                    </View>
+
+                ) : null}
+                <GeneralModal />
                 <KeyboardAwareScrollView
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="always">
-                        <View style={styles.TextConatiner}>
-                            <Text style={styles.FormText}>
-                                {t("Please, provide you contact details in order to schedule an online legal consultant.")} 
-                            </Text>
-                        </View>
+                    <View style={styles.TextConatiner}>
+                        <Text style={styles.FormText}>
+                            {t("Please, provide you contact details in order to schedule an online legal consultant.")}
+                        </Text>
+                    </View>
                     <ConsultantForm />
 
                 </KeyboardAwareScrollView>
@@ -89,19 +94,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'white'
     },
     IconContainer: {
-        flexDirection: 'row',    
-        alignItems:'center'   
+        flexDirection: 'row',
+        backgroundColor: '#BDD5EB',
+        marginTop: Work.HP('2'),
+        alignItems: 'center'
     },
-    TextConatiner:{
-        marginHorizontal:Work.WP('15'),
-        alignItems:'center',
-        justifyContent:'center',
-        marginTop:Work.WP('10')
+    TextConatiner: {
+        marginHorizontal: Work.WP('15'),
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: Work.WP('10')
     },
-    FormText:{
-        textAlign:'center',
-        fontSize:17,
-    
+    FormText: {
+        textAlign: 'center',
+        fontSize: 17,
+
     }
 
 

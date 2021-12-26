@@ -14,7 +14,7 @@ const LanguageSelect = () => {
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
     const Laguage = useSelector(state => state?.auth?.language);
-    console.log("Laguage-->",Laguage);
+    // console.log("Laguage-->",Laguage);
     const toggleOverlay = () => {
         setpopUpvisible(!popUpvisible);
     };
@@ -68,7 +68,7 @@ const LanguageSelect = () => {
                         )} />
 
                     <Text style={styles.popText}>
-                        { }Italian
+                        { }Italiano
               </Text>
                 </TouchableOpacity>
 
@@ -80,7 +80,7 @@ const LanguageSelect = () => {
             </Overlay>
             <TouchableOpacity onPress={() => setpopUpvisible(true)}>
                 <Image
-                    style={{ height: 60, width: 60, borderRadius: 30, borderWidth: 2, borderColor: 'lightgrey', alignSelf: 'flex-end', marginRight: 30 }}
+                    style={{ height: 33, width: 43,borderWidth: 2, borderColor: 'lightgrey', alignSelf: 'flex-end', marginRight: 30,marginTop:10 }}
                     source={ Laguage == 'ita' ?  require('../../../assets/Images/Flag-Italy.jpeg'):require('../../../assets/Images/flag.png')}>
 
                 </Image>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     popText: {
         fontSize: 20,
         textAlign: 'center',
-        marginHorizontal: Work.WP('7'),
+        marginHorizontal: Work.WP('5'),
         marginVertical: Work.WP('1')
     },
     flagView: {

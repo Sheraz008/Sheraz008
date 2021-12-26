@@ -97,10 +97,10 @@ const LoginForm = ({ Set_Modal_Visible }) => {
                         <View>
                             <TouchableOpacity
                                 style={styles.loginbtn}
-                    onPress={handleSubmit}
+                             onPress={handleSubmit}
                             //onPress={()=>navigation.navigate('Home')}
                             >
-                                <Text style={{ fontSize: 20, color: '#fff' }}>  {t('Login')}</Text>
+                                <Text style={{ fontSize: 20, color: '#fff',marginRight:15 }}>  {t(' Login')}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     },
     loginbtn: {
         backgroundColor: '#4F6EA5',
-        textAlign: 'center',
         paddingVertical: WP('2'),
+        paddingHorizontal:WP('7'),
         color: 'black',
         borderRadius: 30,
         fontSize: 18,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: WP('10'),
-        width: WP('32'),
+       // width: WP('3'),
         alignSelf: 'center'
     },
     passwordText: {

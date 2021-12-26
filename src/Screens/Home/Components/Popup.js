@@ -43,7 +43,7 @@ const Popup = ({ PopVisible, Set_Modal_Visible, pressede_Typesending }) => {
                                 {t("Our email response doesn't guarantee a legal advice. The consultant will only lead you trough the legal guidelines.")}
                 </Text> :
                             <Text style={styles.popText}>
-                                {t("Book an appointment online with a legal consultant. The price for 1 hour consultation is € 100,00.")}
+                                {t("Book an appointment online with a legal consultant. The price for 1 hour consultation is € 100")}
                 </Text>
 
                 }

@@ -7,36 +7,55 @@ import * as Work from '../../../shared/exporter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Jobs from '../../../store/actions/auth.action';
+import DatePicker from 'react-native-date-picker'
+import moment from 'moment';
 const { WP, HP } = Work
 const UserForm = ({CurrentUser}) => {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
+    const [date, setDate] = useState(CurrentUser?.dob)
+    const [open, setOpen] = useState(false)
+    const Language = useSelector(state => state.auth.language);
     const updateUser = async ({ Name,Surname,Email, DateOfBirth }) => {
- 
+
       dispatch(
         Jobs.updateUser({
             name:Name,
             surname:Surname,
-          email: Email,
-          dob: DateOfBirth,
+           email: Email,
+            dob: date,
           userId:CurrentUser?._id
         }),
       );
     };
     return (
         <View style={styles.FormikView}>
+              <DatePicker
+          modal
+          open={open}
+          locale={Language == 'ita' ? 'it-IT':'en'} 
+          mode='date'
+          date={new Date()}
+         onConfirm={(date) => {
+          setOpen(false)
+          setDate(date)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      />
         <Formik
             initialValues={{
                 Name: CurrentUser?.name,
-                Surname: CurrentUser?.surname,
-                DateOfBirth:CurrentUser?.dob,
+                Surname: CurrentUser?.surname? CurrentUser?.surname:CurrentUser?.name ,
+                //DateOfBirth:CurrentUser?.dob,
                 Email:CurrentUser?.email,
                
             }}
             validationSchema={Yup.object({
                 Name: Yup.string().required('Name Required').max('25'),
                 Surname: Yup.string().required('Surname Required').max('25'),
-                DateOfBirth: Yup.string().required('Date of birth Required').max('25'),
+               // DateOfBirth: Yup.string().required('Date of birth Required').max('25'),
                 Email: Yup.string().email().required('Please enter a valid Email'),
                 //Password: Yup.string().min(8, 'Too Short ! At least 8 Characters Required').required('Field Required'),
                 // ConPassword: Yup.string().min(8, 'Too Short ! At least 8 Characters Required').required('Field Required').oneOf([Yup.ref('Password')], 'Passwords do not match'),
@@ -84,7 +103,7 @@ const UserForm = ({CurrentUser}) => {
                             onBlur={handleBlur('Surname')}
                             error={errors.Surname}
                             touched={touched.Surname}
-                            defaultValue={CurrentUser?.surname}
+                            defaultValue={CurrentUser?.surname? CurrentUser?.surname:CurrentUser?.name}
                             autoCorrect={false}
                             errorMessage={
                                 errors.Surname && touched.Surname
@@ -113,7 +132,24 @@ const UserForm = ({CurrentUser}) => {
                             errorStyle={{ marginLeft: WP('10') }} />
                     </View>
                     <View>
-                        <Input
+                    <TouchableOpacity
+                        onPress={() => setOpen(true)}
+                          style={styles.datePickerStyle}
+
+                        >
+                            <Text style={{
+                         fontSize: 18,
+                         color:"#000"
+                         
+                            }}>
+                                {
+                                 moment(date).format('DD/MM/YYYY')
+                             
+                                }
+                            </Text>
+       
+                        </TouchableOpacity>
+                        {/* <Input
                             inputContainerStyle={{ borderBottomWidth: 0, }}
                             placeholder={t("Date of birth")}
                             placeholderTextColor="#757B77"
@@ -129,7 +165,7 @@ const UserForm = ({CurrentUser}) => {
                                     ? errors.DateOfBirth
                                     : null
                             }
-                            errorStyle={{ marginLeft: WP('10') }} />
+                            errorStyle={{ marginLeft: WP('10') }} /> */}
                     </View>
 
                     {/* <View>
@@ -155,7 +191,7 @@ const UserForm = ({CurrentUser}) => {
                         <TouchableOpacity
                             style={styles.loginbtn}
                             onPress={handleSubmit}>
-                            <Text style={{ fontSize: 20, color: '#fff' }}>{("Save changes")}</Text>
+                            <Text style={{ fontSize: 18, color: '#fff' }}>{t("Save changes")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -179,19 +215,30 @@ const styles = StyleSheet.create({
         marginHorizontal: WP('10')
 
     },
+    datePickerStyle:{
+        backgroundColor: '#fff',
+        fontSize: 18,
+        height: HP('6'),
+        borderColor: "#9E9E9E",
+        marginBottom:25,
+        borderWidth: 1,
+        marginHorizontal: WP('12'),
+        justifyContent:'center',
+        paddingHorizontal: WP('4'),
+
+
+    },
     loginbtn: {
         backgroundColor: '#4F6EA5',
         textAlign: 'center',
-        paddingVertical: WP('2'),
+        paddingHorizontal: WP('4'),
+        paddingVertical:WP('2'),
         color: 'black',
         borderRadius: 30,
         fontSize: 18,
         fontWeight: 'bold',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: WP('10'),
-        width: WP('40'),
-   
         alignSelf: 'center'
     },
     passwordText: {

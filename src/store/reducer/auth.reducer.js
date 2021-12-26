@@ -1,6 +1,6 @@
 import * as Types from '../action.types';
 const initialState = {
-  language: "en",
+  language: "ita",
   user: null,
   loadingLoader: false,
   errorLoader: false,

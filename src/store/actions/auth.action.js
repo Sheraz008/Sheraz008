@@ -1,6 +1,6 @@
 import * as Types from '../action.types';
 import axios from 'axios';
-import { SUCCESS_MESSAGE } from '../action.types';
+import {SUCCESS_MESSAGE} from '../action.types';
 
 export const Languageswitch = language => {
   return {
@@ -57,160 +57,186 @@ export const userMessages = message => {
     payload: message,
   };
 };
-const login = (data) => {
+const login = data => {
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('login', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            dispatch(saveUser(response.data));
-            dispatch(LoadingLoader(false));
-          }
-        })
-        .catch(function (error) {
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('login', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          dispatch(saveUser(response.data));
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-           dispatch(saveUser(null));
-          dispatch(errorMessage(error?.response?.data?.message?error?.response?.data?.message:'Server error'));
-        });
-    
+        }
+      })
+      .catch(function (error) {
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(saveUser(null));
+        dispatch(
+          errorMessage(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : 'Server error',
+          ),
+        );
+      });
   };
 };
-const SignUp = (data) => {
+const SignUp = data => {
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('register', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            dispatch(saveUser(response.data));
-            dispatch(LoadingLoader(false));
-          
-          }
-        })
-        .catch(function (error) {
-          console.log("Error-->",error?.response?.data);
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('register', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          dispatch(saveUser(response.data));
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-           dispatch(saveUser(null));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error?.response?.data);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(saveUser(null));
+        dispatch(
+          errorMessage(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : 'Server error',
+          ),
+        );
+      });
   };
 };
-const SocailLogin = (data) => {
+const SocailLogin = data => {
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('socialMediaLogin', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            dispatch(saveUser(response.data));
-            dispatch(LoadingLoader(false));
-          }
-        })
-        .catch(function (error) {
-          console.log("Error-->",error?.response?.data);
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('socialMediaLogin', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          dispatch(saveUser(response.data));
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-           dispatch(saveUser(null));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error?.response?.data);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(saveUser(null));
+        dispatch(errorMessage(error?.response?.data?.message));
+      });
   };
 };
-const updateUser = (data) => {
+const updateUser = data => {
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('update', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            console.log("response.data--->",response.data);
-            dispatch(saveUser(response.data));
-            dispatch(LoadingLoader(false));
-            dispatch(successModal(true))
-            dispatch(successMessage("User updated successfully"))
-          
-          }
-        })
-        .catch(function (error) {
-          console.log("Error-->",error?.response?.data);
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('update', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          console.log('response.data--->', response.data);
+          dispatch(saveUser(response.data));
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+          dispatch(successModal(true));
+          dispatch(successMessage('User updated successfully'));
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error?.response);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(
+          errorMessage(
+            error?.response?.data?.message
+              ? error?.response?.data?.message
+              : 'Server error',
+          ),
+        );
+      });
   };
 };
-const sendMail = (data) => {
+const sendMail = data => {
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('sendEmail', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            dispatch(LoadingLoader(false));
-            dispatch(successModal(true))
-            dispatch(successMessage(response?.data?.message))
-          
-          }
-        })
-        .catch(function (error) {
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('sendEmail', data)
+      .then(function (response) {
+        if (response?.status == 200) {
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+          dispatch(successModal(true));
+          dispatch(successMessage(response?.data?.message));
+        }
+      })
+      .catch(function (error) {
+        console.log('error--->', error);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(errorMessage(error?.response?.data?.message));
+      });
   };
 };
-const onlineConsultant = (data) => {
-  console.log(
-    'daete',data
-  )
+const onlineConsultant = data => {
+  console.log('daete', data);
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('consultant', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            console.log("response.data--->",response.data);
-            dispatch(LoadingLoader(false));
-            dispatch(successModal(true))
-            dispatch(successMessage(response?.data?.message))
-          
-          }
-        })
-        .catch(function (error) {
-          console.log("Error-->",error?.response?.data);
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('consultant', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          console.log('response.data--->', response.data);
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+          dispatch(successModal(true));
+          dispatch(successMessage(response?.data?.message));
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(errorMessage(error?.response?.data?.message));
+      });
   };
 };
-const chatMessages = (data) => {
-
+const ResetPasswordRequest = data => {
+  console.log('daete', data);
   return async dispatch => {
-      dispatch(LoadingLoader(true))
-      await axios
-        .post('messages', data)
-        .then(function (response) {
-          if (response?.status == 200) {
-            //console.log("response.data--->",response.data);
-            dispatch(userMessages(response.data))
-           
-          }
-        })
-        .catch(function (error) {
-          console.log("Error-->",error?.response?.data);
+    dispatch(LoadingLoader(true));
+    await axios
+      .post('forgetEmail', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          console.log('response.data--->', response.data);
           dispatch(LoadingLoader(false));
-           dispatch(errorModal(true));
-          dispatch(errorMessage(error?.response?.data?.message));
-        });
-    
+          dispatch(successModal(true));
+          dispatch(successMessage(response?.data?.message));
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(errorMessage(error?.response?.data?.message));
+      });
+  };
+};
+const chatMessages = data => {
+  return async dispatch => {
+    // dispatch(LoadingLoader(true))
+    await axios
+      .post('messages', data)
+      .then(function (response) {
+        if (response?.status == 200) {
+          console.log('response.data--->', response.data);
+          dispatch(userMessages(response.data));
+        }
+      })
+      .catch(function (error) {
+        console.log('Error-->', error?.response?.data);
+        dispatch(LoadingLoader(false));
+        dispatch(errorModal(true));
+        dispatch(errorMessage(error?.response?.data?.message));
+      });
   };
 };
 export {
@@ -220,7 +246,6 @@ export {
   sendMail,
   onlineConsultant,
   chatMessages,
-  SocailLogin
-}
-
-
+  SocailLogin,
+  ResetPasswordRequest,
+};

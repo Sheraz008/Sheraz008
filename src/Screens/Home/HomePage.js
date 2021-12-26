@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View,StatusBar } from 'react-native'
 import FontAicon from 'react-native-vector-icons/Ionicons';
 import * as Work from '../../shared/exporter'
 import LogoImage from '../../shared/components/LogoImage'
@@ -25,11 +25,17 @@ const HomePage = ({ navigation }) => {
         })
         socket.on('disconnect',msg=>{
             console.log("result from socket",msg);
-
         })
     }, [])
     return (
         <SafeAreaView style={styles.parentView}>
+          <StatusBar
+       
+        barStyle="dark-content"
+        backgroundColor='#BDD5EB'
+      /> 
+      {/* <StatusBar hidden /> */}
+
             <View style={styles.mainContaner}>
                
                 <Popup PopVisible={Modalvisible} Set_Modal_Visible={setModalvisibleVisible} pressede_Typesending={PressedType} />

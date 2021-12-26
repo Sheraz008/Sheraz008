@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image,Linking } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as Work from '../../../shared/exporter'
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { SocialIcon } from 'react-native-elements'
 import * as Jobs from '../../../store/actions/auth.action';
 import { useDispatch, useSelector } from 'react-redux';
+import { Platform } from 'react-native';
 const FooterPart = () => {
   const navigation = useNavigation();
   const { t, i18n } = useTranslation();
@@ -130,6 +131,9 @@ const FooterPart = () => {
             iconSize={35}
           />
         </TouchableOpacity>
+        {
+          Platform.OS === 'ios'?
+        
         <TouchableOpacity
           onPress={() => AppleButtonPress()}
           style={styles.imageView}>
@@ -139,29 +143,38 @@ const FooterPart = () => {
             iconSize={40}
           />
         </TouchableOpacity>
+:null}
 
       </View>
       <View>
         <View style={styles.textView}>
           <Text style={styles.normolText}>
-            {t('By logging into your account,you accept our')}
+            {t('By logging into your account, you accept our')}
           </Text>
           <View style={{ flexDirection: 'row' }} >
+          <TouchableOpacity
+                        onPress={()=> Linking.openURL('https://myavvocatoapp.com/termini-e-condizioni-generali')}
+                        >
             <Text style={styles.underLineText}>
+              
               {t('General Terms and Condition')}
             </Text>
+            </TouchableOpacity>
             <Text style={styles.normolText}>
-              {t('and our')}
+              {t(' and our')}
             </Text>
           </View>
+          <TouchableOpacity
+                        onPress={()=> Linking.openURL('https://myavvocatoapp.com/privacy-and-cookie-policy')}
+                        >
           <Text style={[styles.underLineText, {}]}>
             {t('Privacy and cookie policy')}
           </Text>
-
+</TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: Work.WP('7'), }} >
           <Text style={[styles.normolText, { fontSize: Work.WP('4.5') }]}>
-            {t("Don't have an account?")}
+            {t("Don't have an account? ")}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('SingUp')}>
             <Text style={[styles.normolText, { fontSize: Work.WP('5'), top: 0, textDecorationLine: 'underline', }]}>

@@ -8,24 +8,42 @@ import * as Work from '../../../shared/exporter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Jobs from '../../../store/actions/auth.action';
-
+import DatePicker from 'react-native-date-picker'
+import moment from 'moment';
 const { WP, HP } = Work;
 const SignupForm = () => {
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
+    const [date, setDate] = useState(null)
+    const [open, setOpen] = useState(false)
+    const Language = useSelector(state => state.auth.language);
     const Signup = async ({Name,Surname,DateOfBirth, Email, Password }) => {
       dispatch(
         Jobs.SignUp({
             name:Name,
             surname:Surname,
             email: Email,
-            dob:DateOfBirth,
+            dob:date,
             password: Password,
         }),
       );
     };
     return (
         <View>
+            <DatePicker
+          modal
+          open={open}
+          locale={Language == 'ita' ? 'it-IT':'en'} 
+          mode='date'
+          date={new Date()}
+         onConfirm={(date) => {
+          setOpen(false)
+          setDate(date)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      />
             <Formik
                 initialValues={{
                     Name: '',
@@ -38,7 +56,7 @@ const SignupForm = () => {
                 validationSchema={Yup.object({
                     Name: Yup.string().required('Name Required').max('25'),
                     Surname: Yup.string().required('Surname Required').max('25'),
-                    DateOfBirth: Yup.string().required('Date of birth Required').max('25'),
+                    // DateOfBirth: Yup.string().required('Date of birth Required').max('25'),
                     Email: Yup.string().email().required('Please enter a valid Email'),
                     Password: Yup.string().min(8, 'Too Short ! At least 8 Characters Required').required('Field Required'),
                     ConPassword: Yup.string().min(8, 'Too Short ! At least 8 Characters Required').required('Field Required').oneOf([Yup.ref('Password')], 'Passwords do not match'),
@@ -111,12 +129,27 @@ const SignupForm = () => {
                                 }
                                 errorStyle={{ marginLeft: WP('10') }} />
                         </View>
-                        <View>
-                            <Input
+                        <TouchableOpacity
+                        onPress={() => setOpen(true)}
+                          style={styles.datePickerStyle}
+
+                        >
+                            <Text style={{
+   fontSize: 18,color :  date ? 'black':'grey',
+                            }}>
+                                {
+                                    date ? moment(date).format('DD/MM/YYYY')
+                                :
+                            t("Date of birth")
+                                }
+                            </Text>
+                            
+                            {/* <Input
                                 inputContainerStyle={{ borderBottomWidth: 0, }}
                                 placeholder={t("Date of birth")}
                                 placeholderTextColor="#757B77"
                                 style={styles.input}
+                                disabled={true}
                                 onChangeText={handleChange('DateOfBirth')}
                                 onBlur={handleBlur('DateOfBirth')}
                                 error={errors.DateOfBirth}
@@ -127,8 +160,8 @@ const SignupForm = () => {
                                         ? errors.DateOfBirth
                                         : null
                                 }
-                                errorStyle={{ marginLeft: WP('10') }} />
-                        </View>
+                                errorStyle={{ marginLeft: WP('10') }} /> */}
+                        </TouchableOpacity>
 
                         <View>
                             <Input
@@ -170,7 +203,7 @@ const SignupForm = () => {
                             <TouchableOpacity
                                 style={styles.loginbtn}
                                 onPress={handleSubmit}>
-                                <Text style={{ fontSize: 20, color: '#fff' }}>{t("Register")}</Text>
+                                <Text style={{ fontSize: 20, color: '#fff' }}>{t(" Register")}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -212,6 +245,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: WP('4.5'),
         textDecorationLine: 'underline'
+    },
+    datePickerStyle:{
+        backgroundColor: '#fff',
+        fontSize: 18,
+        height: HP('6'),
+        borderColor: "#9E9E9E",
+       marginBottom:25,
+        borderWidth: 1,
+        marginHorizontal: WP('12'),
+        justifyContent:'center',
+        paddingHorizontal: WP('4'),
 
 
     }
